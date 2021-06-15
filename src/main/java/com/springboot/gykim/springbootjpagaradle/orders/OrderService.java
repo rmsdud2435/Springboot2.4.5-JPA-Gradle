@@ -19,10 +19,14 @@ public class OrderService {
     this.orderRepository = orderRepository;
   }
 
-  public void review(ReviewDto reviewDto) {
+  public Optional<ReviewDto> review(Long userSeq, Long productSeq, ReviewDto reviewDto) {
     checkNotNull(reviewDto.getProductId(), "productId must be provided");
 
-    return orderRepository.review(reviewDto);
+    Long seq = orderRepository.review(userSeq, productSeq, reviewDto);
+    reviewDto.setSeq(seq);
+    reviewDto.setProductId(productSeq);
+
+    return reviewDto;
   }
 
   @Transactional(readOnly = true)

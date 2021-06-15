@@ -12,5 +12,5 @@ public interface OrderRepository {
 
   List<Order> findAll(Pageable page);
 
-  void review(ReviewDto reviewDto);
+  void review(Long userSeq, ReviewDto reviewDto);
 }

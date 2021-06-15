@@ -22,11 +22,11 @@ public class JdbcOrderRepository implements OrderRepository {
   }
 
   @Override
-  public void review(ReviewDto reviewDto) {
+  public void review(Long userSeq, ReviewDto reviewDto) {
     jdbcTemplate.query(
       "INSERT INTO REVIEWS(USER_SEQ, PRODUCT_SEQ, CONTENT, CREATE_AT) VALUES(?,?,?,?);",
       mapper,
-      reviewDto.getSeq(),
+      userSeq,
       reviewDto.getProductId(),
       reviewDto.getContent(),
       reviewDto.getCreateAt()
