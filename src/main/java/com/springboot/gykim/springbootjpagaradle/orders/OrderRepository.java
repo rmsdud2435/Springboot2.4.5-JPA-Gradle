@@ -6,11 +6,9 @@ import com.springboot.gykim.springbootjpagaradle.configures.web.Pageable;
 
 public interface OrderRepository {
 
-  /*
-  Optional<Product> findById(long id);
-  */
-
   List<Order> findAll(Pageable page);
 
-  void review(Long userSeq, ReviewDto reviewDto);
+  ReviewDto review(Long userSeq, Long productSeq, ReviewDto reviewDto);
+
+  Order findById(Long orderSeq);
 }

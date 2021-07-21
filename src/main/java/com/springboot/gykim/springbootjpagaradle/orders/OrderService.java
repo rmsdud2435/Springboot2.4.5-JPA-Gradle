@@ -9,6 +9,7 @@ import java.util.Optional;
 import com.springboot.gykim.springbootjpagaradle.configures.web.Pageable;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.time.LocalDateTime.now;
 
 @Service
 public class OrderService {
@@ -19,14 +20,17 @@ public class OrderService {
     this.orderRepository = orderRepository;
   }
 
-  public Optional<ReviewDto> review(Long userSeq, Long productSeq, ReviewDto reviewDto) {
-    checkNotNull(reviewDto.getProductId(), "productId must be provided");
+  @Transactional(readOnly = true)
+  public Optional<Order> findById(Long orderSeq) {
+    checkNotNull(orderSeq, "orderSeq must be provided");
 
-    Long seq = orderRepository.review(userSeq, productSeq, reviewDto);
-    reviewDto.setSeq(seq);
-    reviewDto.setProductId(productSeq);
+    return OrderRepository.findById(orderSeq);
+  }
 
-    return reviewDto;
+  public ReviewDto review(Long userSeq, Long orderSeq, ReviewDto reviewDto) {
+    //checkNotNull(reviewDto.getProductId(), "productId must be provided");
+    reviewDto.setCreateAt(now());
+    return orderRepository.review(userSeq, orderSeq, reviewDto);
   }
 
   @Transactional(readOnly = true)

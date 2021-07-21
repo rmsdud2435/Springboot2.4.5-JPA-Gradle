@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.springboot.gykim.springbootjpagaradle.utils.ApiUtils.success;
+
 @RestController
 @RequestMapping("api/orders")
 public class ReviewRestController {
@@ -32,7 +34,7 @@ public class ReviewRestController {
   public ApiResult<ReviewDto> review(@AuthenticationPrincipal JwtAuthentication authentication, @PathVariable Long id, @RequestBody ReviewDto reviewDto) {
 
     return success(
-      orderService.review(authentication.id, id, reviewDto).map(ReviewDto::new);
+      orderService.review(authentication.id, id, reviewDto)
     );
   }
 }

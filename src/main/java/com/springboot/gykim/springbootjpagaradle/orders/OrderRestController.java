@@ -41,15 +41,15 @@ public class OrderRestController {
 
   // JwtAuthenticationTokenFilter 에서 JWT 값을 통해 사용자를 인증한다.
   // 사용자 인증이 정상으로 완료됐다면 @AuthenticationPrincipal 어노테이션을 사용하여 인증된 사용자 정보(JwtAuthentication)에 접근할 수 있다.
-  /* @GetMapping
-  public ApiResult<List<OrderDto>> findAll( @AuthenticationPrincipal JwtAuthentication authentication) {
+  @GetMapping(path = "{id}")
+  public ApiResult<OrderDto> findById( @AuthenticationPrincipal JwtAuthentication authentication, @PathVariable Long id) {
     return success(
-      orderService.findAll().stream()
+      orderService.findById(id)
         .map(OrderDto::new)
         .collect(toList())
-        //.orElseThrow(() -> new NotFoundException("Could nof found Product for " + authentication.id))
+        .orElseThrow(() -> new NotFoundException("Could not found order for " + id))
     );
-  } */
+  }
 
   @GetMapping
   public ApiResult<List<OrderDto>> findAll(Pageable page) {

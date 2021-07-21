@@ -2,13 +2,17 @@ package com.springboot.gykim.springbootjpagaradle.orders;
 
 import java.time.LocalDateTime;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.time.LocalDateTime.now;
-import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+@Getter
+@Setter
+@ToString
 public class Review {
     
     private final Long seq;
@@ -24,11 +28,10 @@ public class Review {
     }
 
     public Review(Long seq, Long productId, String content, LocalDateTime createAt) {
-        checkArgument(isNotEmpty(content), "content must be provided");
-        checkArgument(
+        /* checkArgument(
             content.length() >= 1 && content.length() <= 1000,
-            "name length must be between 1 and 1000 characters"
-        );
+            "content length must be between 1 and 1000 characters"
+        ); */
     
         this.seq = seq;
         this.productId = productId;
