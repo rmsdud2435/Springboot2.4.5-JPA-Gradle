@@ -36,8 +36,8 @@ public class SimplePageRequestHandlerMethodArgumentResolver implements HandlerMe
     String sizeString = webRequest.getParameter(sizeParameterName);
 
     // TODO 구현이 필요 합니다.
-    Long offset = Long.parseLong(offsetString);
-    int size = Integer.parseInt(sizeString);
+    Long offset = Long.parseLong(offsetString == null? "0": offsetString);
+    int size = Integer.parseInt(sizeString == null? "5": sizeString);
 
     if(offset < 0 || offset > Long.MAX_VALUE){
       offset = DEFAULT_OFFSET;

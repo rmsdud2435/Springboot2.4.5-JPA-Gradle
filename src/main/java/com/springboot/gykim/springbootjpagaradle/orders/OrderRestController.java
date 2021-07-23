@@ -1,11 +1,16 @@
 package com.springboot.gykim.springbootjpagaradle.orders;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.gykim.springbootjpagaradle.configures.web.Pageable;
 import com.springboot.gykim.springbootjpagaradle.errors.NotFoundException;
 import com.springboot.gykim.springbootjpagaradle.errors.UnauthorizedException;
 import com.springboot.gykim.springbootjpagaradle.security.Jwt;
 import com.springboot.gykim.springbootjpagaradle.security.JwtAuthentication;
 import com.springboot.gykim.springbootjpagaradle.security.JwtAuthenticationToken;
+
+import org.omg.CORBA.BAD_PARAM;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,10 +22,14 @@ import javax.validation.Valid;
 
 import static com.springboot.gykim.springbootjpagaradle.utils.ApiUtils.ApiResult;
 import static com.springboot.gykim.springbootjpagaradle.utils.ApiUtils.success;
+import static com.springboot.gykim.springbootjpagaradle.utils.ApiUtils.error;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("api/orders")
@@ -46,18 +55,45 @@ public class OrderRestController {
     return success(
       orderService.findById(id)
         .map(OrderDto::new)
-        .collect(toList())
         .orElseThrow(() -> new NotFoundException("Could not found order for " + id))
     );
   }
 
   @GetMapping
-  public ApiResult<List<OrderDto>> findAll(Pageable page) {
+  public ApiResult<List<OrderDto>> findAll(@AuthenticationPrincipal JwtAuthentication authentication, Pageable page) {
     return success(
       orderService.findAll(page).stream()
         .map(OrderDto::new)
         .collect(toList())
-        //.orElseThrow(() -> new NotFoundException("Could nof found Product for " + authentication.id))
     );
+  }
+
+  @PatchMapping(value="{id}/accept")
+  public ApiResult<Boolean> accept(@AuthenticationPrincipal JwtAuthentication authentication, @PathVariable Long id ) {
+      //TODO: process POST request
+      return orderService.accept(id) == 1? success(true): success(false);
+  }
+  
+  @PatchMapping(value="{id}/shipping")
+  public ApiResult<Boolean> shipping(@AuthenticationPrincipal JwtAuthentication authentication, @PathVariable Long id ) {
+      //TODO: process POST request
+      return orderService.shipping(id) == 1? success(true): success(false);
+  }
+
+  @PatchMapping(value="{id}/complete")
+  public ApiResult<Boolean> complete(@AuthenticationPrincipal JwtAuthentication authentication, @PathVariable Long id ) {
+      //TODO: process POST request
+      return orderService.complete(id) == 1? success(true): success(false);
+  }
+
+  @PatchMapping(value="{id}/reject")
+  public ApiResult<Boolean> reject(@AuthenticationPrincipal JwtAuthentication authentication, @PathVariable Long id, @RequestBody(required = false) JsonNode jsonNode) {
+    //TODO: process POST request
+    if(jsonNode == null){
+      throw new IllegalArgumentException("Request parameter not found");
+    }
+
+    String message = jsonNode.get("message").asText();
+    return orderService.reject(id, message) == 1? success(true): success(false);
   }
 }

@@ -3,6 +3,7 @@ package com.springboot.gykim.springbootjpagaradle.orders;
 import com.springboot.gykim.springbootjpagaradle.configures.JwtTokenConfigure;
 import com.springboot.gykim.springbootjpagaradle.security.WithMockJwtAuthentication;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -70,7 +71,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(1)
+  @Order(1)
   @WithMockJwtAuthentication
   @DisplayName("주문 목록 페이징 조회 성공 테스트 (offset=0,size=2)")
   void findAllSuccessTest1() throws Exception {
@@ -99,7 +100,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(2)
+  @Order(2)
   @WithMockJwtAuthentication
   @DisplayName("주문 목록 페이징 조회 성공 테스트 (offset=2,size=1)")
   void findAllSuccessTest2() throws Exception {
@@ -124,7 +125,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(3)
+  @Order(3)
   @WithMockJwtAuthentication
   @DisplayName("주문 목록 페이징 조회 성공 테스트 (offset=-1,size=10)")
   void findAllSuccessTest3() throws Exception {
@@ -167,7 +168,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(4)
+  @Order(4)
   @WithMockJwtAuthentication
   @DisplayName("주문 목록 페이징 조회 성공 테스트 (offset=null,size=null)")
   void findAllSuccessTest4() throws Exception {
@@ -208,7 +209,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(5)
+  @Order(5)
   @DisplayName("주문 목록 페이징 조회 실패 테스트 (토큰이 올바르지 않을 경우)")
   void findAllFailureTest() throws Exception {
     ResultActions result = mockMvc.perform(
@@ -228,7 +229,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(6)
+  @Order(6)
   @WithMockJwtAuthentication
   @DisplayName("주문 조회 성공 테스트")
   void findByIdSuccessTest() throws Exception {
@@ -281,7 +282,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(7)
+  @Order(7)
   @DisplayName("주문 조회 실패 테스트 (토큰이 올바르지 않을 경우)")
   void findByIdFailureTest() throws Exception {
     ResultActions result = mockMvc.perform(
@@ -299,7 +300,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(8)
+  @Order(8)
   @WithMockJwtAuthentication
   @DisplayName("접수 상태 변경 성공 테스트")
   void acceptSuccessTest() throws Exception {
@@ -329,7 +330,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(9)
+  @Order(9)
   @WithMockJwtAuthentication
   @DisplayName("접수 상태 변경 실패 테스트 (변경 불가 상태)")
   void acceptFailureTest() throws Exception {
@@ -361,7 +362,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(10)
+  @Order(10)
   @WithMockJwtAuthentication
   @DisplayName("배송 상태 변경 성공 테스트")
   void shippingSuccessTest() throws Exception {
@@ -391,7 +392,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(11)
+  @Order(11)
   @WithMockJwtAuthentication
   @DisplayName("배송 상태 변경 실패 테스트 (변경 불가 상태)")
   void shippingFailureTest() throws Exception {
@@ -424,7 +425,7 @@ class OrderRestControllerTest {
 
 
   @Test
-  //@Order(12)
+  @Order(12)
   @WithMockJwtAuthentication
   @DisplayName("완료 상태 변경 성공 테스트")
   void completeSuccessTest() throws Exception {
@@ -455,7 +456,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(13)
+  @Order(13)
   @WithMockJwtAuthentication
   @DisplayName("완료 상태 변경 실패 테스트 (변경 불가 상태)")
   void completeFailureTest() throws Exception {
@@ -487,7 +488,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(14)
+  @Order(14)
   @WithMockJwtAuthentication
   @DisplayName("거절 상태 변경 성공 테스트")
   void rejectSuccessTest() throws Exception {
@@ -521,7 +522,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(15)
+  @Order(15)
   @WithMockJwtAuthentication
   @DisplayName("거절 상태 변경 실패 테스트 (거절 메시지 누락)")
   void rejectFailureTest1() throws Exception {
@@ -541,7 +542,7 @@ class OrderRestControllerTest {
   }
 
   @Test
-  //@Order(16)
+  @Order(16)
   @WithMockJwtAuthentication
   @DisplayName("거절 상태 변경 실패 테스트 (변경 불가 상태)")
   void rejectFailureTest2() throws Exception {
