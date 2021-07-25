@@ -1,33 +1,19 @@
 package com.springboot.gykim.springbootjpagaradle.orders;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.gykim.springbootjpagaradle.configures.web.Pageable;
 import com.springboot.gykim.springbootjpagaradle.errors.NotFoundException;
-import com.springboot.gykim.springbootjpagaradle.errors.UnauthorizedException;
 import com.springboot.gykim.springbootjpagaradle.security.Jwt;
 import com.springboot.gykim.springbootjpagaradle.security.JwtAuthentication;
-import com.springboot.gykim.springbootjpagaradle.security.JwtAuthenticationToken;
-
-import org.omg.CORBA.BAD_PARAM;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 import static com.springboot.gykim.springbootjpagaradle.utils.ApiUtils.ApiResult;
 import static com.springboot.gykim.springbootjpagaradle.utils.ApiUtils.success;
-import static com.springboot.gykim.springbootjpagaradle.utils.ApiUtils.error;
-
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -35,16 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("api/orders")
 public class OrderRestController {
   // TODO findAll, findById, accept, reject, shipping, complete 메소드 구현이 필요합니다.
-  
-  private final Jwt jwt;
-
-  private final AuthenticationManager authenticationManager;
-
   private final OrderService orderService;
 
   public OrderRestController(Jwt jwt, AuthenticationManager authenticationManager, OrderService orderService) {
-    this.jwt = jwt;
-    this.authenticationManager = authenticationManager;
     this.orderService = orderService;
   }
 

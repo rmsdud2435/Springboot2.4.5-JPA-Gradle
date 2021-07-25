@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Builder
 @AllArgsConstructor

@@ -4,14 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
-
-import static java.util.Optional.ofNullable;
-import static java.time.LocalDateTime.now;
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
-
 @Getter
 @Setter
 @ToString

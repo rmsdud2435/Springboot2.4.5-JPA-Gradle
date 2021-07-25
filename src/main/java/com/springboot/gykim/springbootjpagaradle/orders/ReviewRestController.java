@@ -20,13 +20,7 @@ public class ReviewRestController {
   // TODO review 메소드 구현이 필요합니다.
   private final OrderService orderService;
 
-  private final Jwt jwt;
-
-  private final AuthenticationManager authenticationManager;
-
   public ReviewRestController(Jwt jwt, AuthenticationManager authenticationManager, OrderService orderService) {
-    this.jwt = jwt;
-    this.authenticationManager = authenticationManager;
     this.orderService = orderService;
   }
 
