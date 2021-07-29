@@ -26,6 +26,7 @@ dependencies {
 	//compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
 	implementation 'org.apache.commons:commons-lang3:3.11'
 	implementation 'commons-io:commons-io:2.8.0'
+	implementation 'javax.ws.rs:javax.ws.rs-api:2.0'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.4'
 	implementation 'com.fasterxml.jackson.module:jackson-module-afterburner:2.11.4'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.4'

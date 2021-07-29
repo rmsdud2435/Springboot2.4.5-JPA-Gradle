@@ -3,6 +3,7 @@ package com.springboot.gykim.springbootjpagaradle.orders;
 import com.springboot.gykim.springbootjpagaradle.configures.JwtTokenConfigure;
 import com.springboot.gykim.springbootjpagaradle.products.ProductRestController;
 import com.springboot.gykim.springbootjpagaradle.security.WithMockJwtAuthentication;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,7 +40,7 @@ class ReviewRestControllerTest {
   }
 
   @Test
-  //@Order(1)
+  @Order(1)
   @WithMockJwtAuthentication
   @DisplayName("리뷰 작성 실패 테스트 (리뷰 내용 누락)")
   void reviewFailureTest1() throws Exception {
@@ -60,7 +61,7 @@ class ReviewRestControllerTest {
   }
 
   @Test
-  //@Order(2)
+  @Order(2)
   @DisplayName("리뷰 작성 실패 테스트 (토큰이 올바르지 않을 경우)")
   void reviewFailureTest2() throws Exception {
     ResultActions result = mockMvc.perform(
@@ -80,7 +81,7 @@ class ReviewRestControllerTest {
   }
 
   @Test
-  //@Order(3)
+  @Order(3)
   @WithMockJwtAuthentication
   @DisplayName("리뷰 작성 실패 테스트 (리뷰 작성 불가 상태)")
   void reviewFailureTest3() throws Exception {
@@ -101,7 +102,7 @@ class ReviewRestControllerTest {
   }
 
   @Test
-  //@Order(4)
+  @Order(4)
   @WithMockJwtAuthentication
   @DisplayName("리뷰 작성 실패 테스트 (이미 리뷰가 존재함)")
   void reviewFailureTest4() throws Exception {
@@ -122,7 +123,7 @@ class ReviewRestControllerTest {
   }
 
   @Test
-  //@Order(5)
+  @Order(5)
   @WithMockJwtAuthentication
   @DisplayName("리뷰 작성 실패 테스트 (리뷰 내용 최대 길이 초과)")
   void reviewFailureTest5() throws Exception {
@@ -143,7 +144,7 @@ class ReviewRestControllerTest {
   }
 
   @Test
-  //@Order(6)
+  @Order(6)
   @WithMockJwtAuthentication
   @DisplayName("리뷰 작성 성공 테스트")
   void reviewSuccessTest() throws Exception {

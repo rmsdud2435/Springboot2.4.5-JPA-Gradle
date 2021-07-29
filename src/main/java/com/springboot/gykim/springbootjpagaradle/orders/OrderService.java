@@ -58,7 +58,7 @@ public class OrderService {
 
 
   public ReviewDto review(Long userSeq, Long orderSeq, ReviewDto reviewDto) {
-    //checkNotNull(reviewDto.getProductId(), "productId must be provided");
+    checkNotNull(reviewDto.getContent(), "Content must be provided");
     reviewDto.setCreateAt(now());
     return orderRepository.review(userSeq, orderSeq, reviewDto);
   }

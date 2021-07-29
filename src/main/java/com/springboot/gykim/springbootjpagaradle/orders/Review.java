@@ -27,11 +27,6 @@ public class Review {
     }
 
     public Review(Long seq, Long productId, String content, LocalDateTime createAt) {
-        /* checkArgument(
-            content.length() >= 1 && content.length() <= 1000,
-            "content length must be between 1 and 1000 characters"
-        ); */
-    
         this.seq = seq;
         this.productId = productId;
         this.content = content;

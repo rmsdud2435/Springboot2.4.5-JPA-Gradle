@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.ws.rs.BadRequestException;
+
 import static com.springboot.gykim.springbootjpagaradle.utils.ApiUtils.success;
 
 @RestController
@@ -26,6 +28,10 @@ public class ReviewRestController {
 
   @PostMapping(path = "{id}/review")
   public ApiResult<ReviewDto> review(@AuthenticationPrincipal JwtAuthentication authentication, @PathVariable Long id, @RequestBody ReviewDto reviewDto) {
+
+    if(reviewDto.getContent() == null || "".equals(reviewDto.getContent())){
+      throw new IllegalArgumentException("Content must be provide");
+    }
 
     return success(
       orderService.review(authentication.id, id, reviewDto)
