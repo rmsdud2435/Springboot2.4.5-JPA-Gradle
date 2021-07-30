@@ -56,9 +56,10 @@ public class OrderService {
     return orderRepository.reject(id, message, createAt);
   }
 
-
-  public ReviewDto review(Long userSeq, Long orderSeq, ReviewDto reviewDto) {
+  @Transactional
+  public Optional<Order> review(Long userSeq, Long orderSeq, ReviewDto reviewDto) {
     checkNotNull(reviewDto.getContent(), "Content must be provided");
+
     reviewDto.setCreateAt(now());
     return orderRepository.review(userSeq, orderSeq, reviewDto);
   }

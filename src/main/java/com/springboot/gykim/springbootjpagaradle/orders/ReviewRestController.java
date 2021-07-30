@@ -30,11 +30,11 @@ public class ReviewRestController {
   public ApiResult<ReviewDto> review(@AuthenticationPrincipal JwtAuthentication authentication, @PathVariable Long id, @RequestBody ReviewDto reviewDto) {
 
     if(reviewDto.getContent() == null || "".equals(reviewDto.getContent())){
-      throw new IllegalArgumentException("Content must be provide");
+      throw new IllegalArgumentException("Content must");
     }
 
     return success(
-      orderService.review(authentication.id, id, reviewDto)
+      orderService.review(authentication.id, id, reviewDto);
     );
   }
 }

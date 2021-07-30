@@ -81,11 +81,19 @@ public class JdbcOrderRepository implements OrderRepository {
 
   @Deprecated
   @Override
-  public ReviewDto review(Long userSeq, Long orderSeq, ReviewDto reviewDto) {
+  public Optional<Order> review(Long userSeq, Long orderSeq, ReviewDto reviewDto) {
 
     Long productSeq = jdbcTemplate.queryForObject(
       "SELECT PRODUCT_SEQ FROM ORDERS WHERE SEQ = ?", new Object[]{orderSeq}, Long.class
     );
+
+    Long reviewSeq = jdbcTemplate.queryForObject(
+      "SELECT REVIEW_SEQ FROM ORDERS WHERE SEQ = ?", new Object[]{orderSeq}, Long.class
+    );
+
+    if(reviewSeq != null){
+      throw new  IllegalArgumentException("Review already exist");
+    }
 
     jdbcTemplate.update(
       "INSERT INTO REVIEWS(USER_SEQ, PRODUCT_SEQ, CONTENT, CREATE_AT) VALUES(?,?,?,?);",
@@ -101,9 +109,13 @@ public class JdbcOrderRepository implements OrderRepository {
     );
     ;
 
-    Long seq = jdbcTemplate.queryForObject("SELECT SEQ FROM REVIEWS WHERE PRODUCT_SEQ = ?", new Object[]{productSeq}, Long.class);
-    
-    return new ReviewDto(seq, productSeq, reviewDto.getContent(), reviewDto.getCreateAt());
+    List<Order> results = jdbcTemplate.query(
+      "SELECT A.*, B.seq as review_sequence, B.product_seq as review_product_seq, B.content, B.create_at as review_create_at FROM orders A LEFT OUTER JOIN reviews B ON A.review_seq = B.seq WHERE A.seq = ?",
+      mapper,
+      orderSeq
+    );
+
+    return ofNullable(results.isEmpty() ? null : results.get(0));
   }
 
   static RowMapper<Order> mapper = (rs, rowNum) ->
