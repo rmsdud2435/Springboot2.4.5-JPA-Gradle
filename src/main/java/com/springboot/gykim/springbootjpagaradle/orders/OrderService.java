@@ -57,7 +57,7 @@ public class OrderService {
   }
 
   @Transactional
-  public Optional<Order> review(Long userSeq, Long orderSeq, ReviewDto reviewDto) {
+  public Review review(Long userSeq, Long orderSeq, ReviewDto reviewDto) {
     checkNotNull(reviewDto.getContent(), "Content must be provided");
 
     reviewDto.setCreateAt(now());

@@ -1,5 +1,6 @@
 package com.springboot.gykim.springbootjpagaradle.orders;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -81,11 +82,20 @@ public class JdbcOrderRepository implements OrderRepository {
 
   @Deprecated
   @Override
-  public Optional<Order> review(Long userSeq, Long orderSeq, ReviewDto reviewDto) {
+  public Review review(Long userSeq, Long orderSeq, ReviewDto reviewDto) {
 
-    Long productSeq = jdbcTemplate.queryForObject(
-      "SELECT PRODUCT_SEQ FROM ORDERS WHERE SEQ = ?", new Object[]{orderSeq}, Long.class
-    );
+    Long productSeq = null;
+    try {
+      productSeq = jdbcTemplate.queryForObject(
+        "SELECT PRODUCT_SEQ FROM ORDERS WHERE SEQ = ? AND state = 'COMPLETED'", new Object[]{orderSeq}, Long.class
+      );
+    } catch (EmptyResultDataAccessException e) {
+      productSeq = null;
+    }
+
+    if(productSeq == null){
+      throw new  IllegalArgumentException("No product that can review");
+    }
 
     Long reviewSeq = jdbcTemplate.queryForObject(
       "SELECT REVIEW_SEQ FROM ORDERS WHERE SEQ = ?", new Object[]{orderSeq}, Long.class
@@ -107,15 +117,16 @@ public class JdbcOrderRepository implements OrderRepository {
       "UPDATE PRODUCTS SET REVIEW_COUNT = IFNULL(REVIEW_COUNT,0)+1 WHERE SEQ = ?",
       productSeq
     );
-    ;
 
-    List<Order> results = jdbcTemplate.query(
-      "SELECT A.*, B.seq as review_sequence, B.product_seq as review_product_seq, B.content, B.create_at as review_create_at FROM orders A LEFT OUTER JOIN reviews B ON A.review_seq = B.seq WHERE A.seq = ?",
-      mapper,
+    Long seq = jdbcTemplate.queryForObject("SELECT SEQ FROM REVIEWS WHERE PRODUCT_SEQ = ?", new Object[]{productSeq}, Long.class);
+
+    jdbcTemplate.update(
+      "UPDATE ORDERS SET REVIEW_SEQ = ? WHERE SEQ = ?",
+      seq,
       orderSeq
     );
 
-    return ofNullable(results.isEmpty() ? null : results.get(0));
+    return new Review(seq, productSeq, reviewDto.getContent(), reviewDto.getCreateAt());
   }
 
   static RowMapper<Order> mapper = (rs, rowNum) ->
@@ -131,6 +142,6 @@ public class JdbcOrderRepository implements OrderRepository {
       .rejectedAt(dateTimeOf(rs.getTimestamp("rejected_at")))
       .createAt(dateTimeOf(rs.getTimestamp("create_at")))
       .review(rs.getLong("review_sequence"), rs.getLong("review_product_seq"), rs.getString("content"), dateTimeOf(rs.getTimestamp("review_create_at")))
-      .build();
+      .build();      
 
 }

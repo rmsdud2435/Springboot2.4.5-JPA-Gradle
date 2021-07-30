@@ -20,5 +20,5 @@ public interface OrderRepository {
 
   int reject(Long id, String rejectMsg, LocalDateTime rejectedAt);
 
-  Optional<Order> review(Long userSeq, Long productSeq, ReviewDto reviewDto);
+  Review review(Long userSeq, Long productSeq, ReviewDto reviewDto);
 }

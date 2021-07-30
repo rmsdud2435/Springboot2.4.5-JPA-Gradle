@@ -27,14 +27,18 @@ public class ReviewRestController {
   }
 
   @PostMapping(path = "{id}/review")
-  public ApiResult<ReviewDto> review(@AuthenticationPrincipal JwtAuthentication authentication, @PathVariable Long id, @RequestBody ReviewDto reviewDto) {
+  public ApiResult<Review> review(@AuthenticationPrincipal JwtAuthentication authentication, @PathVariable Long id, @RequestBody ReviewDto reviewDto) {
 
     if(reviewDto.getContent() == null || "".equals(reviewDto.getContent())){
-      throw new IllegalArgumentException("Content must");
+      throw new IllegalArgumentException("Content must be provide");
+    }
+
+    if(reviewDto.getContent().length() > 1000){
+      throw new IllegalArgumentException("Content must be at most 1000");
     }
 
     return success(
-      orderService.review(authentication.id, id, reviewDto);
+      orderService.review(authentication.id, id, reviewDto)
     );
   }
 }
