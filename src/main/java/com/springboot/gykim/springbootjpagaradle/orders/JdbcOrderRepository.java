@@ -32,12 +32,6 @@ public class JdbcOrderRepository implements OrderRepository {
       orderSeq
     );
 
-    List<Order> results2 = jdbcTemplate.query(
-      "SELECT A.*, B.seq as review_sequence, B.product_seq as review_product_seq, B.content, B.create_at as review_create_at FROM orders A LEFT OUTER JOIN reviews B ON A.review_seq = B.seq WHERE A.seq = ?",
-      mapper,
-      orderSeq
-    );
-
     return ofNullable(results.isEmpty() ? null : results.get(0));
   }
 
