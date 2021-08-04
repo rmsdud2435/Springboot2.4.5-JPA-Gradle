@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.BadRequestException;
-
 import static com.springboot.gykim.springbootjpagaradle.utils.ApiUtils.success;
 
 @RestController
