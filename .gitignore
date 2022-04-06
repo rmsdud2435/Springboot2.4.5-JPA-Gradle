@@ -56,3 +56,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### Gradle Temp Directory ###
+.gradle/
+
+### IDE Setting Directory ###
+.metadata/
